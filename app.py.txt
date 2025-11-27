@@ -5,7 +5,7 @@ import random
 
 TOKEN = os.getenv('TELEGRAM_TOKEN', '8311052561:AAHrRZVKfw7BJLrpxdFx78DKBWZXr-NK2wg')
 bot = telebot.TeleBot(TOKEN)
-app = Flask(name)
+app = Flask(_name_)
 
 quotes = [
     "Сегодня лучший день чтобы начать!",
