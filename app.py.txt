@@ -5,7 +5,7 @@ import random
 
 TOKEN = os.getenv('TELEGRAM_TOKEN', '8311052561:AAHrRZVKfw7BJLrpxdFx78DKBWZXr-NK2wg')
 bot = telebot.TeleBot(TOKEN)
-app = Flask(_name_)
+app = Flask(__name__)
 
 quotes = [
     "Сегодня лучший день чтобы начать!",
@@ -45,4 +45,5 @@ def home():
     return "Bot is running! Use Telegram to interact with me."
 
 if name == 'main':
+
     app.run(host='0.0.0.0', port=5000)
