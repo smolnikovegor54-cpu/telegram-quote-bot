@@ -1,0 +1,48 @@
+import os
+from flask import Flask, request
+import telebot
+import random
+
+TOKEN = os.getenv('TELEGRAM_TOKEN', '8311052561:AAHrRZVKfw7BJLrpxdFx78DKBWZXr-NK2wg')
+bot = telebot.TeleBot(TOKEN)
+app = Flask(name)
+
+quotes = [
+    "Сегодня лучший день чтобы начать!",
+    "Успех - это идти от неудачи к неудаче, не теряя энтузиазма.",
+    "Мечты сбываются, если над ними работать.",
+    "Падай семь раз, вставай восемь.",
+    "Великие дела требуют великого терпения.",
+    "Каждый эксперт когда-то был новичком.",
+    "Главное - начать, а там уже будет видно!",
+    "Ты способен на большее, чем думаешь!",
+    "Каждый день - новая возможность стать лучше.",
+    "Маленькие шаги приводят к большим результатам.",
+    "Верь в себя, даже если никто не верит.",
+    "Каждая проблема - это возможность научиться чему-то новому."
+]
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.reply_to(message, "Привет! Я бот! Напиши /quote")
+
+@bot.message_handler(commands=['quote'])
+def quote(message):
+    text = random.choice(quotes)
+    bot.reply_to(message, text)
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    if request.headers.get('content-type') == 'application/json':
+        json_string = request.get_data().decode('utf-8')
+        update = telebot.types.Update.de_json(json_string)
+        bot.process_new_updates([update])
+        return ''
+    return 'OK'
+
+@app.route('/')
+def home():
+    return "Bot is running! Use Telegram to interact with me."
+
+if name == 'main':
+    app.run(host='0.0.0.0', port=5000)
